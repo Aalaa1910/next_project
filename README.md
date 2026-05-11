@@ -37,3 +37,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 <img width="960" height="540" alt="home" src="https://github.com/user-attachments/assets/7c046e11-45ea-429f-bf43-fd62e8aafacb" />
 
+<img width="960" height="540" alt="productdetails" src="https://github.com/user-attachments/assets/3ebb20df-9e48-467e-b7c1-75dcadf4c000" />
+<img width="960" height="540" alt="products1" src="https://github.com/user-attachments/assets/112b1307-75d2-4a46-9563-1786acd9ae70" />
+<img width="960" height="540" alt="checkout" src="https://github.com/user-attachments/assets/4270e2a7-0b7f-4319-80b6-e9402f554492" />
+<img width="960" height="540" alt="profile" src="https://github.com/user-attachments/assets/9b19a71f-98bc-4ecd-9a4a-dbd301618bf8" />
+<img width="960" height="540" alt="cart" src="https://github.com/user-attachments/assets/e5d65ba7-4f62-4d0a-9fde-4f1cc5c53752" />
+<img width="960" height="540" alt="orders" src="https://github.com/user-attachments/assets/ba9b3aac-0f6d-40f6-bf33-07c0d77a91a8" />
+

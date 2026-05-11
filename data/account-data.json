@@ -28,6 +28,21 @@
     ],
     "orders": [
       {
+        "id": "ORD-1778501735974",
+        "placedAt": "2026-05-11T12:15:35.974Z",
+        "status": "Processing",
+        "total": 1999.99,
+        "items": [
+          {
+            "id": 78,
+            "title": "Apple MacBook Pro 14 Inch Space Grey",
+            "price": 1999.99,
+            "image": "https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/thumbnail.webp",
+            "quantity": 1
+          }
+        ]
+      },
+      {
         "id": "ORD-1778459467873",
         "placedAt": "2026-05-11T00:31:07.873Z",
         "status": "Processing",

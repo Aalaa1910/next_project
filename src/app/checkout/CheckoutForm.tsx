@@ -1,12 +1,15 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { useActionState, useEffect, useMemo, useRef } from "react";
+import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { placeOrderAction } from "../actions/checkout";
 import { useCart } from "../context/CartContext";
+import { getShippingOptionById, getShippingOptions } from "../lib/shipping";
 
 type CheckoutFormProps = {
   userName: string;
+  initialShippingId?: string;
 };
 
 type CheckoutActionState = {
@@ -19,7 +22,10 @@ const initialCheckoutState: CheckoutActionState = {
   message: "",
 };
 
-export default function CheckoutForm({ userName }: CheckoutFormProps) {
+export default function CheckoutForm({
+  userName,
+  initialShippingId,
+}: CheckoutFormProps) {
   const { items, clearCart } = useCart();
   const hasClearedCartRef = useRef(false);
   const [state, formAction, isPending] = useActionState(
@@ -31,7 +37,15 @@ export default function CheckoutForm({ userName }: CheckoutFormProps) {
     () => items.reduce((sum, item) => sum + item.price * item.quantity, 0),
     [items]
   );
-  const shipping = subtotal > 0 ? 12 : 0;
+  const shippingOptions = useMemo(
+    () => getShippingOptions(subtotal),
+    [subtotal]
+  );
+  const [selectedShippingId, setSelectedShippingId] = useState(
+    initialShippingId ?? ""
+  );
+  const selectedShipping = getShippingOptionById(subtotal, selectedShippingId);
+  const shipping = selectedShipping?.price ?? 0;
   const total = subtotal + shipping;
   const serializedItems = JSON.stringify(items);
 
@@ -112,6 +126,8 @@ export default function CheckoutForm({ userName }: CheckoutFormProps) {
         >
           <input type="hidden" name="items" value={serializedItems} />
           <input type="hidden" name="total" value={total} />
+          <input type="hidden" name="shippingMethod" value={selectedShippingId} />
+          <input type="hidden" name="shippingPrice" value={shipping} />
 
           <div>
             <h2 className="text-xl font-semibold">Shipping details</h2>
@@ -171,10 +187,55 @@ export default function CheckoutForm({ userName }: CheckoutFormProps) {
             </label>
           </div>
 
+          <div className="space-y-3">
+            <div>
+              <h3 className="text-lg font-semibold">Shipping method</h3>
+              <p className="text-sm text-gray-600">
+                Choose the delivery option that fits your order.
+              </p>
+            </div>
+            <div className="space-y-3">
+              {shippingOptions.map((option) => (
+                <label
+                  key={option.id}
+                  className={`flex items-start justify-between gap-3 rounded-xl border p-4 ${
+                    option.id === selectedShippingId
+                      ? "border-brand bg-brand/5"
+                      : "border-border bg-white"
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <input
+                      type="radio"
+                      name="shippingMethodChoice"
+                      value={option.id}
+                      checked={option.id === selectedShippingId}
+                      onChange={() => setSelectedShippingId(option.id)}
+                      className="mt-1 h-4 w-4 accent-brand"
+                    />
+                    <div>
+                      <p className="font-medium text-gray-900">{option.label}</p>
+                      <p className="text-sm text-gray-500">{option.description}</p>
+                    </div>
+                  </div>
+                  <span className="font-semibold text-gray-900">
+                    ${option.price.toFixed(2)}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {!selectedShipping && (
+            <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
+              Please choose a shipping method before placing your order.
+            </p>
+          )}
+
           <button
             type="submit"
-            disabled={isPending}
-            className="w-full rounded-lg bg-brand py-3 font-semibold text-white hover:bg-brand-hover transition"
+            disabled={isPending || !selectedShipping}
+            className="w-full rounded-lg bg-brand py-3 font-semibold text-white transition hover:bg-brand-hover disabled:cursor-not-allowed disabled:bg-gray-400"
           >
             {isPending ? "Placing order..." : "Place order"}
           </button>
@@ -186,9 +247,11 @@ export default function CheckoutForm({ userName }: CheckoutFormProps) {
           <div className="space-y-4">
             {items.map((item) => (
               <div key={item.id} className="flex gap-3">
-                <img
+                <Image
                   src={item.image}
                   alt={item.title}
+                  width={64}
+                  height={64}
                   className="h-16 w-16 rounded-lg object-cover bg-white"
                 />
                 <div className="min-w-0 flex-1">

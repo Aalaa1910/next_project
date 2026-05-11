@@ -1,8 +1,20 @@
 import { auth } from "@/auth";
 import CheckoutForm from "./CheckoutForm";
 
-export default async function CheckoutPage() {
-  const session = await auth();
+type CheckoutPageProps = {
+  searchParams: Promise<{ shipping?: string }>;
+};
 
-  return <CheckoutForm userName={session?.user?.name ?? ""} />;
+export default async function CheckoutPage({
+  searchParams,
+}: CheckoutPageProps) {
+  const session = await auth();
+  const { shipping } = await searchParams;
+
+  return (
+    <CheckoutForm
+      userName={session?.user?.name ?? ""}
+      initialShippingId={shipping}
+    />
+  );
 }

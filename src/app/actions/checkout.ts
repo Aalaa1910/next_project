@@ -25,6 +25,7 @@ export async function placeOrderAction(
 
   const rawItems = String(formData.get("items") ?? "[]");
   const total = Number(formData.get("total"));
+  const shippingMethod = String(formData.get("shippingMethod") ?? "");
 
   let items: OrderItem[] = [];
 
@@ -41,6 +42,13 @@ export async function placeOrderAction(
     return {
       status: "error",
       message: "Your order is empty.",
+    };
+  }
+
+  if (!shippingMethod) {
+    return {
+      status: "error",
+      message: "Please choose a shipping method.",
     };
   }
 

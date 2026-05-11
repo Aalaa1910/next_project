@@ -15,13 +15,14 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-  searchParams: Promise<{ category?: string; sort?: ProductSort }>;
+  searchParams: Promise<{ category?: string; sort?: ProductSort; page?: string }>;
 };
 
 export default async function ProductsPage({ searchParams }: Props) {
-  const { category, sort } = await searchParams;
+  const { category, sort, page } = await searchParams;
   const categories = await getCategories();
   const categoryLabel = formatCategoryLabel(category);
+  const currentPage = Number.parseInt(page ?? "1", 10);
 
   return (
     <div>
@@ -40,7 +41,11 @@ export default async function ProductsPage({ searchParams }: Props) {
           currentCategory={category ?? "all"}
           currentSort={sort ?? "featured"}
         />
-        <ProductList category={category} sort={sort} />
+        <ProductList
+          category={category}
+          sort={sort}
+          page={Number.isNaN(currentPage) ? 1 : currentPage}
+        />
       </Suspense>
     </div>
   );

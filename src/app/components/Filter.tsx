@@ -28,9 +28,10 @@ export default function Filter({
 
   function handleFilter(category: string) {
     const params = new URLSearchParams(searchParams);
+    params.delete("page");
 
     if (category === "all") {
-      params.delete("category"); 
+      params.delete("category");
     } else {
       params.set("category", category);
     }
@@ -41,6 +42,7 @@ export default function Filter({
 
   function handleSort(sort: ProductSort) {
     const params = new URLSearchParams(searchParams);
+    params.delete("page");
 
     if (sort === "featured") {
       params.delete("sort");

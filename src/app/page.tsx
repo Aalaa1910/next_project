@@ -1,65 +1,113 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Suspense } from "react";
+import HomeCategories from "./components/HomeCategories";
+import HomeProducts from "./components/HomeProducts";
+import Loading from "./loading";
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: "Home",
+  description: "Welcome to ShopNext",
+};
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="space-y-16">
+      <section className="relative overflow-hidden rounded-[2rem] border border-border bg-[linear-gradient(135deg,#f6f1e8_0%,#fffdf9_45%,#f4efe6_100%)] px-6 py-10 sm:px-10 lg:px-14 lg:py-14">
+        <div className="absolute -right-10 top-8 h-40 w-40 rounded-full bg-brand/10 blur-3xl" />
+        <div className="absolute bottom-0 left-0 h-32 w-32 rounded-full bg-orange-200/30 blur-2xl" />
+
+        <div className="relative grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="space-y-6">
+            <div className="inline-flex w-fit items-center rounded-full border border-brand/20 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+              ShopNext Collection
+            </div>
+
+            <div className="space-y-4">
+              <h1 className="max-w-2xl text-4xl font-bold leading-tight tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+                Discover <span className="text-brand">Amazing</span>
+                <br />
+                Products
+              </h1>
+
+              <p className="max-w-xl text-base leading-7 text-gray-600 sm:text-lg">
+                Your one-stop shop for electronics, fashion, jewelry, and more.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/products"
+                className="rounded-xl bg-brand px-6 py-3 font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-hover"
+              >
+                Browse Products
+              </Link>
+              <Link
+                href="/products"
+                className="rounded-xl border border-border bg-white/90 px-6 py-3 font-semibold text-gray-700 transition-all hover:border-brand hover:text-brand"
+              >
+                View Categories
+              </Link>
+            </div>
+
+            <div className="flex flex-wrap gap-6 border-t border-gray-200/80 pt-5 text-sm text-gray-600">
+              <div>
+                <p className="text-2xl font-bold text-gray-900">200+</p>
+                <p>Curated products</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-gray-900">Top</p>
+                <p>Electronics and fashion</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-gray-900">Fast</p>
+                <p>Checkout experience</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative min-h-[420px]">
+            <div className="absolute inset-x-8 top-0 h-16 rounded-full bg-brand/10 blur-3xl" />
+
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/70 bg-gray-900 shadow-[0_24px_80px_rgba(15,23,42,0.18)]">
+              <img
+                src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80"
+                alt="Fashion and shopping products arranged for an online store"
+                className="h-[420px] w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.05)_0%,rgba(15,23,42,0.45)_100%)]" />
+            </div>
+
+            <div className="absolute -left-4 bottom-8 rounded-[1.5rem] border border-white/80 bg-white p-4 shadow-[0_20px_60px_rgba(15,23,42,0.12)] sm:-left-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">
+                Best Sellers
+              </p>
+              <p className="mt-2 text-xl font-bold text-gray-900">Tech + Style</p>
+              <p className="mt-1 max-w-[180px] text-sm leading-6 text-gray-600">
+                Discover standout picks across electronics, fashion, and more.
+              </p>
+            </div>
+
+            <div className="absolute -right-2 top-6 rounded-[1.5rem] border border-gray-200 bg-[#efe4d4] p-4 shadow-[0_20px_60px_rgba(15,23,42,0.12)] sm:right-[-24px]">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">
+                Fresh Arrivals
+              </p>
+              <p className="mt-2 text-xl font-bold text-gray-900">Shop the drop</p>
+              <p className="mt-1 max-w-[170px] text-sm leading-6 text-gray-700">
+                New pieces added for home, beauty, and everyday essentials.
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </section>
+
+      <Suspense fallback={<Loading />}>
+        <HomeProducts />
+      </Suspense>
+
+      <Suspense fallback={<Loading />}>
+        <HomeCategories />
+      </Suspense>
     </div>
   );
 }
